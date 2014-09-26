@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cloud Fabric || Product Calculator</title>
+    <link rel="shortcut icon" alt="Canopy favicon" href="http://www.canopy-cloud.com/misc/favicon.ico" type="image/vnd.microsoft.icon"/>
+    <link rel="stylesheet" type= "text/css" href = "{% static 'fabric/stylesheet.css' %}" />
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+</head>
+<body>
+    <div id="header">
+        <img id="logo" alt="Canopy logo" title="Canopy logo" src="{% static 'fabric/canopy-logo1.png' %}">
+    </div>
+    <div id="kickStartOutterDiv">
+
+        <h1 id="kickStarth1">{{KickStarterEditionName}}</h1>
+        <div class="blueFillKick">
+        </div>
+        <div class="keepDesStill">
+        <p id="kickStartP">{{KickStarterEditionDescription}}</p>
+        </div>
+        <img class="cloudFabric" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/cloudFabricWhiteTiny.png' %}">
+        <div class="aContain">
+        <a id="We" href="{% url 'monthlykickstart' %}"><button  id="kickStartBtn" class="pure-button pure-button-primary">{{KickStarterEditionName}}</button></a>
+    </div>
+        </div>
+    <div id="privateOutterDiv">
+            <h1 id="privateH1">{{PrivateEditionName}}</h1>
+        <div class="blueFillKick">
+        </div>
+        <div class="keepDesStill">
+             <p id="privateP">{{PrivateEditionDescription}}</p>
+        </div>
+        <img class="cloudFabric" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/cloudFabricWhiteTiny.png' %}">
+        <div class="aContain">
+        <a href="{% url 'monthlyvp' %}">
+        <button id="privateBtn" class="pure-button pure-button-primary">{{PrivateEditionName}}</button>
+            </a>
+            </div>
+    </div>
+</body>
+</html>

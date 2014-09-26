@@ -1,0 +1,96 @@
+html{height:100%;}
+
+body{
+background-color:#1A2125;
+margin:0;
+padding:0;
+height:100%
+}
+
+#header{
+display: block;
+width:100%;
+height:100px;
+background-color:#232C31;
+border-bottom: 1px solid #191919
+}
+
+#logo{
+margin-top:15px;
+margin-left:20px;
+}
+
+#chooseMonth{
+overflow:auto;
+display:block;
+margin:auto;
+margin-top:8%;
+background-color:#00588C;
+border-radius:10px;
+border: 1px solid #E6E6E6;
+height:50%;
+width:50%;
+}
+
+#chooseMonthH1{
+margin-top:7%;
+text-align:center;
+color:#E6E6E6;
+font-family:arial;
+}
+#monthlyradiobuttons{
+display:block;
+margin-left:30%;
+}
+input{
+
+height:8%;
+width:8%;
+}
+
+#monthlyradiobuttons_0,
+ #monthlyradiobuttons_1,
+  #monthlyradiobuttons_2,
+   #monthlyradiobuttons_3{
+       margin-top:10px;
+       margin-left:-5%;
+
+}
+
+ul{
+color:#00588C;
+}
+
+.monthlyP{
+margin-left:40%;
+margin-top:16px;
+color:#E6E6E6;
+font-family:arial;
+font-size:18px;
+}
+
+#monthlyP0{
+margin-top:-164px;
+}
+
+#monthlyP1{
+margin-top:19px;
+}
+
+#monthlyP2{
+margin-top:19px;
+}
+
+#monthlyP3{
+margin-top:20px;
+}
+
+#subButton{
+display:block;
+margin:auto;
+margin-left:33%;
+width:30%;
+background-color:#394146;
+color:#E6E6E6;
+border: 1px solid #333A3F;
+}
