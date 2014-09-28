@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fabric',
+    'common',
+    'smuggler',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,11 +58,32 @@ WSGI_APPLICATION = 'fabricCalc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
+if 'VCAP_SERVICES' in os.environ:
+  import json
+  vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+  mysql_srv = vcap_services['p-mysql'][0]
+  cred = mysql_srv = mysql_srv['credentials']
+  DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': cred['name'],
+    'USER': cred['username'],
+    'PASSWORD': cred['password'],
+    'HOST': cred['hostname'],
+    'PORT': cred['port'],
+  }
+}
+
+else:
+  DATABASES = {
+    "default": {
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": "db.sqlite3",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+  }
 }
 
 # Internationalization

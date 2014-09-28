@@ -5,45 +5,51 @@ from fabric import models
 
 def loopResource():
     RES_CHOICES = []
-    res_choice =  models.Product.objects.get(pk=1).resource.all()
+    try:
+        res_choice =  models.Product.objects.get(pk=1).resource.all()
 
-    for i in res_choice:
-        if str(i) == 'vCPU':
-            hi = 'hi'
+        for i in res_choice:
+            if str(i) == 'vCPU':
+                hi = 'hi'
 
-        elif str(i) == 'Ram':
-            hi = 'hi'
+            elif str(i) == 'Ram':
+                hi = 'hi'
 
-        elif str(i) == 'Storage':
-            hi = 'hi'
+            elif str(i) == 'Storage':
+                hi = 'hi'
 
-        else:
-            RES_CHOICES.append((str(i.name), str(i)))
+            else:
+                RES_CHOICES.append((str(i.name), str(i)))
+    except:
+        pass
 
     return RES_CHOICES
 
 def loopResourceVP():
     RES_CHOICES = []
-    res_choice =  models.Product.objects.get(pk=2).resource.all()
+    try:
+        res_choice =  models.Product.objects.get(pk=2).resource.all()
 
-    for i in res_choice:
-        if str(i) == 'vCPU':
-             hi = 'hi'
+        for i in res_choice:
+            if str(i) == 'vCPU':
+                 hi = 'hi'
 
-        elif str(i) == 'Ram':
-             hi = 'hi'
+            elif str(i) == 'Ram':
+                 hi = 'hi'
 
-        elif str(i) == 'Storage':
-            hi = 'hi'
+            elif str(i) == 'Storage':
+                hi = 'hi'
 
-        elif str(i) == 'Additional App resource bundle':
-             hi = 'hi'
+            elif str(i) == 'Additional App resource bundle':
+                 hi = 'hi'
 
-        elif str(i) == 'Additional App runtime bundle':
-            hi = 'hi'
+            elif str(i) == 'Additional App runtime bundle':
+                hi = 'hi'
 
-        else:
-            RES_CHOICES.append((str(i.name), str(i)))
+            else:
+                RES_CHOICES.append((str(i.name), str(i)))
+    except:
+        pass
 
     return RES_CHOICES
 
