@@ -152,7 +152,7 @@ def KSNumbersPageView(request):
             monthlyChoice = request.POST['monthlyChoice']
 
             resourceChoice = request.POST['resourceChoice']
-            KickStarterEditionMonthlyCost = int(request.POST['KickStarterEditionMonthlyCost'])
+            KickStarterEditionMonthlyCost = float(request.POST['KickStarterEditionMonthlyCost'])
 
 
 #--------------------------------VCPU----------------------------------------------------------------------------------
@@ -388,7 +388,7 @@ def VPNumbersPageView(request):
             monthlyChoice = request.POST['monthlyChoice']
 
             resourceChoice = request.POST['resourceChoice']
-            PrivateEditionMonthlyCost = int(request.POST['PrivateEditionMonthlyCost'])
+            PrivateEditionMonthlyCost = float(request.POST['PrivateEditionMonthlyCost'])
 
 #--------------------------------resourceAD----------------------------------------------------------------------------------
             resourceAD = request.POST['resourceAD']
