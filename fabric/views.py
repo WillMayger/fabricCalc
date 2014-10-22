@@ -13,6 +13,7 @@ def FirstStagePageView(request):
             editionName = edition.name
             editionResource = edition.resource.all()
 
+
             if int(privateOrKick) == 1:
                 editionVcpu = edition.resource.get(name='vCPU')
                 editionRam = edition.resource.get(name='Ram')
@@ -96,6 +97,7 @@ def ResourcePageView(request):
                  get(lengthInMonths=int(monthlyChoice)).\
                  costPerMonth
 
+            editionResourceDescription = edition.resource.get(name=str(resourceChoice)).description
 
             if int(privateOrKick) == 1:
                 numForm = forms.NumberInputForm( auto_id = True )
@@ -119,6 +121,7 @@ def ResourcePageView(request):
                                            'resourceChoice': resourceChoice,
                                            'editionMonthlyCost': editionMonthlyCost,
                                            'privateOrKick': privateOrKick,
+                                           'editionResourceDescription': editionResourceDescription
                                            })
             return HttpResponse(template.render(context))
     else:

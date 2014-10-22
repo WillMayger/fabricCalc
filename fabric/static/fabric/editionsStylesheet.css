@@ -23,7 +23,7 @@ margin-left:20px;
 #HeaderH1{
 display:block;
 margin-top:-40px;
-margin-left:850px;
+margin-left:830px;
 color:#00629B;
 font-family:arial;
 font-size:40px;
@@ -146,7 +146,7 @@ position: relative;
 display: inline-block;
 margin: 0;
 height:84.5%;
-width:450px;
+width:430px;
 float:right;
 }
 
@@ -236,7 +236,7 @@ margin-left:0px
 }
 
 #runtimeAD{
-margin-top:300px;
+margin-top:275px;
 width:36%;
 height:40px;
 background-color:#00629B;
@@ -256,6 +256,27 @@ font-family:arial;
 margin-left:236px;
 margin-top:84px;
 font-size:20px;
+color:#E6E6E6;
+font-family:arial;
+}
+
+
+#descriptDiv{
+overflow:auto;
+display:block;
+margin:auto;
+background-color:#00588C;
+border-radius:10px;
+border: 1px solid #E6E6E6;
+margin-top:40px;
+height:100px;
+width:80%;
+background-color:
+}
+
+#descriptPara{
+text-align:center;
+font-size:18px;
 color:#E6E6E6;
 font-family:arial;
 }
