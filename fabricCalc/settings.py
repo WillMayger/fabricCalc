@@ -22,7 +22,7 @@ SECRET_KEY = '))53i)=pkz=3&k_$%%yste9d_590n3ar+0l^4uuvm8)u938-y('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'fabric',
     'common',
-    'smuggler',
+    #'smuggler',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -12,6 +12,7 @@
 					</div>
                         <button type="submit" class="pure-button pure-button-primary" id = "subButtonDrop">Submit</button>
                         <input type='hidden' name="monthlyChoice" value="{{monthlyChoice}}" />
+                        <input type='hidden' name="privateOrKick" value="{{privateOrKick}}" />
 					</form>
 
     </div>
@@ -33,22 +34,21 @@
 							</fieldset>
                             <input type='hidden' name="monthlyChoice" value="{{monthlyChoice}}" />
                             <input type='hidden' name="resourceChoice" value="{{resourceChoice}}" />
-                            <input type='hidden' name="KickStarterEditionMonthlyCost" value="{{KickStarterEditionMonthlyCost}}" />
-                            <!--<input type='hidden' name="userVCPU" value="{{userVCPU}}" />-->
-                            <!--<input type='hidden' name="userRAM" value="{{userRAM}}" />-->
-                            <!--<input type='hidden' name="userSTORAGE" value="{{userSTORAGE}}" />-->
+                            <input type='hidden' name="editionMonthlyCost" value="{{editionMonthlyCost}}" />
+                            <input type='hidden' name="privateOrKick" value="{{privateOrKick}}"/>
+
 						</div>
 					</div>
 					</form>
-        <p id="vcpuP">
-           {{KickStarterEditionvcpu}} (Per item)
-        </p>
-        <p id="ramP">
-           {{KickStarterEditionRAM}} (Per GB)
-        </p>
-        <p id="storageP">
-           {{KickStarterEditionSTORAGE}} (Per GB)
-        </p>
+            <p id="vcpuP">
+               {{editionVcpuPer}}
+            </p>
+            <p id="ramP">
+               {{editionRamPer}}
+            </p>
+            <p id="storageP">
+               {{editionStoragePer}}
+            </p>
     </div>
     <div id="tableSection">
         <div id="tableDivBlue">
@@ -63,19 +63,25 @@
     <tbody>
         <tr>
             <td>{{resourceChoice}}</td>
-            <td>€ {{KickStarterEditionMonthlyCost}}</td>
+            <td>€ {{editionMonthlyCost}}</td>
         </tr>
+        {% if userVcpu != 0%}
         <tr>
-            <td>vCPU</td>
-         <td>€ {{userVCPU}}</td>
+            <td>{{editionVcpu}}</td>
+         <td>€ {{userVcpu}}</td>
         </tr>
+        {% endif %}
+        {% if userRam != 0%}
      <tr>
-            <td>Ram</td>
-         <td>€ {{userRAM}}</td>
+            <td>{{editionRam}}</td>
+         <td>€ {{userRam}}</td>
         </tr>
+        {% endif %}
+        {% if userStorage != 0%}
      <tr>
-            <td>Storage</td>
-         <td>€ {{userSTORAGE}}</td>
+            <td>{{editionStorage}}</td>
+         <td>€ {{userStorage}}</td>
+        {% endif %}
 
      <tr id="totalCost">
             <td><b>Total Cost</b></td>

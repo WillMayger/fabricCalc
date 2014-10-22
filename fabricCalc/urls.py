@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('fabric.urls')),
-    (r'^admin/', include('smuggler.urls')),
+    #(r'^admin/', include('smuggler.urls')),
     url(r'^admin/', include(admin.site.urls)),
     (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain")),
 
