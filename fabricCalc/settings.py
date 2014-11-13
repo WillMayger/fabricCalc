@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'fabric',
     'common',
-    #'smuggler',
+    'smuggler',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -4,8 +4,25 @@ from django.shortcuts import render
 from fabric import models
 from fabric import forms
 
+
+def loopResourceVPViewsLoop():
+    RES_CHOICES = []
+    res_choice = models.Product.objects.get(pk=privateOrKick).resource.all()
+
+    for resItem in res_choice:
+
+        if models.Product.objects.get(pk=privateOrKick).resource.get(name='Additional App Resource Bundle') != resItem \
+            and models.Product.objects.get(pk=privateOrKick).resource.get(name='Additional App Runtime Bundle') != resItem:
+            RES_CHOICES.append((str(resItem)))
+
+
+    return RES_CHOICES
+
+
+
 def FirstStagePageView(request):
     if request.method == 'POST':
+            licenceCheckBox = request.POST['licenceCheckBox']
             monthlyChoice = request.POST['monthlyradiobuttons']
             privateOrKick = request.POST['privateOrKick']
 
@@ -14,35 +31,45 @@ def FirstStagePageView(request):
             editionResource = edition.resource.all()
 
 
-            if int(privateOrKick) == 1:
-                editionVcpu = edition.resource.get(name='vCPU')
-                editionRam = edition.resource.get(name='Ram')
-                editionStorage = edition.resource.get(name='Storage')
 
-                editionVcpuPer = str(editionVcpu) + "  (Per item)"
-                editionRamPer = str(editionRam) + " (Per GB)"
-                editionStoragePer = str(editionStorage) + " (Per GB)"
+            editionVcpu = edition.resource.get(name='Additional App Resource Bundle')
+            editionRam = edition.resource.get(name='Additional App Runtime Bundle')
+            editionStorage = ""
 
-            if int(privateOrKick) == 2:
-                editionVcpu = edition.resource.get(name='Additional App resource bundle')
-                editionRam = edition.resource.get(name='Additional App runtime bundle')
-                editionStorage = ""
+            editionVcpuPer = editionVcpu
+            editionRamPer = editionRam
+            editionStoragePer = editionStorage
 
-                editionVcpuPer = editionVcpu
-                editionRamPer = editionRam
-                editionStoragePer = editionStorage
-
-            if int(privateOrKick) == 1:
-                numForm = forms.NumberInputForm( auto_id = True )
-                resForm = forms.ResourceDropDownKS( auto_id = True)
+            popUpList = []
+            if privateOrKick == 1:
+                resForm = forms.ResourceDropDownKS( auto_id = True )
             else:
-                numForm = forms.NumberInputFormVP( auto_id = True )
+
                 resForm = forms.ResourceDropDownVP( auto_id = True)
+            numForm = forms.NumberInputFormVP( auto_id = True )
+
+            for i in loopResourceVPViewsLoop():
+
+                editionResourceDescription = edition.resource.get(name=i).description
+                popUpList.append(i + ": ")
+                popUpList.append(str(editionResourceDescription))
+                popUpList.append("   ")
+            addResourceName = str(editionVcpu)
+            addRuntimeName = str(editionRam)
+
+            resourceDes = editionVcpu.description
+            runtimeDes = editionRam.description
 
             template = loader.get_template('fabric/kickstartedition.html')
             context = RequestContext(request, {'editionName': editionName,
                                        'editionResource':editionResource,
+                                       'resourceDes': resourceDes,
+                                       'runtimeDes': runtimeDes,
+                                       'addResourceName': addResourceName,
+                                       'addRuntimeName': addRuntimeName,
+                                       'popUpList':popUpList,
                                        'numForm': numForm,
+                                       'licenceCheckBox': licenceCheckBox,
                                        'editionVcpu': editionVcpu,
                                        'editionRam': editionRam,
                                        'editionStorage': editionStorage,
@@ -64,6 +91,8 @@ def FirstStagePageView(request):
 
 def ResourcePageView(request):
     if request.method == 'POST':
+
+            licenceCheckBox = request.POST['licenceCheckBox']
             monthlyChoice = request.POST['monthlyChoice']
             privateOrKick = int(request.POST['privateOrKick'])
 
@@ -73,43 +102,49 @@ def ResourcePageView(request):
             editionName = edition.name
             editionResource = edition.resource.all()
 
-            if int(privateOrKick) == 1:
-                editionVcpu = edition.resource.get(name='vCPU')
-                editionRam = edition.resource.get(name='Ram')
-                editionStorage = edition.resource.get(name='Storage')
 
-                editionVcpuPer = str(editionVcpu) + "  (Per item)"
-                editionRamPer = str(editionRam) + " (Per GB)"
-                editionStoragePer = str(editionStorage) + " (Per GB)"
+            editionVcpu = edition.resource.get(name='Additional App Resource Bundle')
+            editionRam = edition.resource.get(name='Additional App Runtime Bundle')
+            editionStorage = ""
 
-            if int(privateOrKick) == 2:
-                editionVcpu = edition.resource.get(name='Additional App resource bundle')
-                editionRam = edition.resource.get(name='Additional App runtime bundle')
-                editionStorage = ""
-
-                editionVcpuPer = editionVcpu
-                editionRamPer = editionRam
-                editionStoragePer = editionStorage
+            editionVcpuPer = editionVcpu
+            editionRamPer = editionRam
+            editionStoragePer = editionStorage
 
             editionMonthlyCost = models.CostPerMonth.objects.\
-                 filter(resource__product__name=editionName).\
+                 filter(resource__product__pk=privateOrKick).\
                  filter(resource__name=str(resourceChoice)).\
                  get(lengthInMonths=int(monthlyChoice)).\
                  costPerMonth
 
             editionResourceDescription = edition.resource.get(name=str(resourceChoice)).description
 
-            if int(privateOrKick) == 1:
-                numForm = forms.NumberInputForm( auto_id = True )
-                resForm = forms.ResourceDropDownKS( auto_id = True)
-            else:
-                numForm = forms.NumberInputFormVP( auto_id = True )
-                resForm = forms.ResourceDropDownVP( auto_id = True)
+
+            numForm = forms.NumberInputFormVP( auto_id = True )
+            resForm = forms.ResourceDropDownVP( auto_id = True)
+            popUpList = []
+            for i in loopResourceVPViewsLoop():
+                editionResourceDescription = edition.resource.get(name=str(i)).description
+                popUpList.append(i + ": ")
+                popUpList.append(str(editionResourceDescription))
+                popUpList.append("   ")
+
+            addResourceName = str(editionVcpu)
+            addRuntimeName = str(editionRam)
+
+            resourceDes = editionVcpu.description
+            runtimeDes = editionRam.description
 
             template = loader.get_template('fabric/kseresource.html')
             context = RequestContext(request, {'editionName': editionName,
                                            'editionResource': editionResource,
+                                           'licenceCheckBox': licenceCheckBox,
+                                           'addResourceName': addResourceName,
+                                           'addRuntimeName': addRuntimeName,
                                            'numForm': numForm,
+                                           'popUpList': popUpList,
+                                           'resourceDes': resourceDes,
+                                           'runtimeDes': runtimeDes,
                                            'editionVcpu': editionVcpu,
                                            'editionRam': editionRam,
                                            'editionStorage': editionStorage,
@@ -134,6 +169,8 @@ def ResourcePageView(request):
 def NumbersPageView(request):
     if request.method == 'POST':
 
+            licenceCheckBox = request.POST['licenceCheckBox']
+
             privateOrKick = int(request.POST['privateOrKick'])
 
             edition = models.Product.objects.get(pk=privateOrKick)
@@ -145,109 +182,92 @@ def NumbersPageView(request):
             resourceChoice = request.POST['resourceChoice']
             editionMonthlyCost = float(request.POST['editionMonthlyCost'])
 
-            if int(privateOrKick) == 1:
-                editionVcpu = str(edition.resource.filter(name='vCPU')[0])
-                editionRam = str(edition.resource.filter(name='Ram')[0])
-                editionStorage = str(edition.resource.filter(name='Storage')[0])
-
-                editionVcpuPer = str(editionVcpu) + "  (Per item)"
-                editionRamPer = str(editionRam) + " (Per GB)"
-                editionStoragePer = str(editionStorage) + " (Per GB)"
-
-                vCPU = request.POST['vcpu']
-
-                editionVcpuCost = models.CostPerMonth.objects.\
-                         filter(resource__product__name=editionName).\
-                         filter(resource__name='vCPU').\
-                         get(lengthInMonths=int(monthlyChoice)).\
-                         costPerMonth
-
-                userVcpu = int(editionVcpuCost * int(vCPU))
-
-                editionVcpu = editionVcpu + " * " + str(vCPU)
-
-                ram = request.POST['ram']
-
-                editionRamCost = models.CostPerMonth.objects.\
-                         filter(resource__product__name=editionName).\
-                         filter(resource__name='Ram').\
-                         get(lengthInMonths=int(monthlyChoice)).\
-                         costPerMonth
-
-                userRam = int(editionRamCost * int(ram))
-
-                editionRam = editionRam + " * " + str(ram)
-
-                storage = request.POST['storage']
-
-                editionStorageCost = models.CostPerMonth.objects.\
-                         filter(resource__product__name=editionName).\
-                         filter(resource__name='Storage').\
-                         get(lengthInMonths=int(monthlyChoice)).\
-                         costPerMonth
-
-                userStorage = float(editionStorageCost * int(storage))
-
-                editionStorage = editionStorage + " * " + str(storage)
-
-                totalCost = userStorage + userRam + userVcpu + editionMonthlyCost
-
-            else:
-
-                editionVcpu = edition.resource.filter(name='Additional App resource bundle')[0]
-                editionRam = edition.resource.filter(name='Additional App runtime bundle')[0]
-                editionStorage = ""
-
-                editionVcpuPer = editionVcpu
-                editionRamPer = editionRam
-                editionStoragePer = editionStorage
-
-                vCPU = request.POST['resourceAD']
-
-                editionVcpuCost = models.CostPerMonth.objects.\
-                         filter(resource__product__name=editionName).\
-                         filter(resource__name='vCPU').\
-                         get(lengthInMonths=int(monthlyChoice)).\
-                         costPerMonth
-
-                userVcpu = int(editionVcpuCost * int(vCPU))
-
-                editionVcpu = str(editionVcpu) + " * " + str(vCPU)
-
-                ram = request.POST['runtimeAD']
-
-                editionRamCost = models.CostPerMonth.objects.\
-                         filter(resource__product__name=editionName).\
-                         filter(resource__name='Ram').\
-                         get(lengthInMonths=int(monthlyChoice)).\
-                         costPerMonth
-
-                userRam = int(editionRamCost * int(ram))
-
-                editionRam = str(editionRam) + " * " + str(ram)
 
 
-                userStorage = 0
+            editionVcpu = edition.resource.get(name='Additional App Resource Bundle')
+            editionRam = edition.resource.get(name='Additional App Runtime Bundle')
+            editionStorage = ""
 
-                totalCost = userStorage + userRam + userVcpu + editionMonthlyCost
+            editionVcpuPer = editionVcpu
+            editionRamPer = editionRam
+            editionStoragePer = editionStorage
+
+            try:
+                vCPU = int(request.POST['resourceAD'])
+            except:
+                vCPU = 0
+
+            editionVcpuCost = models.CostPerMonth.objects.\
+                     filter(resource__product__pk=privateOrKick).\
+                     filter(resource__name=editionVcpu).\
+                     get(lengthInMonths=int(monthlyChoice)).\
+                     costPerMonth
+
+            userVcpu = int(editionVcpuCost * int(vCPU))
+
+            editionVcpu = str(editionVcpu) + " * " + str(vCPU)
+            preUserRun = 0
+            try:
+                ram = int(request.POST['runtimeAD'])
+                if resourceChoice != "Foundation +":
+                    preUserRun = ram
+                    ram = 0
+            except:
+                ram = 0
 
 
-            if int(privateOrKick) == 1:
-                numForm = forms.NumberInputForm( auto_id = True )
-                resForm = forms.ResourceDropDownKS( auto_id = True)
-            else:
-                numForm = forms.NumberInputFormVP( auto_id = True )
-                resForm = forms.ResourceDropDownVP( auto_id = True)
+            editionRamCost = models.CostPerMonth.objects.\
+                     filter(resource__product__pk=privateOrKick).\
+                     filter(resource__name=editionRam).\
+                     get(lengthInMonths=int(monthlyChoice)).\
+                     costPerMonth
+
+            userRam = int(editionRamCost * int(ram))
+
+            editionRam = str(editionRam) + " * " + str(ram)
+
+
+            userStorage = 0
+
+            totalCost = userStorage + userRam + userVcpu + editionMonthlyCost
+
+
+
+            numForm = forms.NumberInputFormVP( auto_id = True )
+            resForm = forms.ResourceDropDownVP( auto_id = True)
+
+            addResourceName = str(editionVcpuPer)
+            addRuntimeName = str(editionRamPer)
+
+            popUpList = []
+            for i in loopResourceVPViewsLoop():
+                editionResourceDescription = edition.resource.get(name=str(i)).description
+                popUpList.append(i + ": ")
+                popUpList.append(str(editionResourceDescription))
+                popUpList.append("   ")
+
+            resourceDes = editionVcpuPer.description
+            runtimeDes = editionRamPer.description
+
+
+
 
             template = loader.get_template('fabric/ksenumbers.html')
             context = RequestContext(request, {'editionName': editionName,
                                                'editionResource': editionResource,
                                                'numForm': numForm,
+                                               'preUserRun': preUserRun,
+                                               'popUpList': popUpList,
+                                               'addResourceName': addResourceName,
+                                               'addRuntimeName': addRuntimeName,
+                                               'resourceDes': resourceDes,
+                                               'runtimeDes': runtimeDes,
                                                'editionVcpu': editionVcpu,
                                                'editionRam': editionRam,
                                                'editionStorage': editionStorage,
                                                'editionVcpuPer': editionVcpuPer,
                                                'editionRamPer': editionRamPer,
+                                               'licenceCheckBox': licenceCheckBox,
                                                'editionStoragePer': editionStoragePer,
                                                'monthlyChoice': monthlyChoice,
                                                'resForm': resForm,
@@ -269,11 +289,24 @@ def NumbersPageView(request):
         return HttpResponse(template.render(context))
 
 def MonthlyvpPageView(request):
+    global privateOrKick;
+    privateOrKick = 1;
+    try:
+        if request.POST['licenceCheckBox'] == 'on':
+            licenceCheckBox = True
+            privateOrKick = 2
+        else:
+            licenceCheckBox = False
+            privateOrKick = 1
+    except:
+        licenceCheckBox = False
+        privateOrKick = 1
+
     monthForm = forms.MonthlyRadioButtons( auto_id = True )
-    privateOrKick = 2
+
 
     template = loader.get_template('fabric/monthlyvp.html')
-    context = RequestContext(request, {'monthForm': monthForm, 'privateOrKick': privateOrKick})
+    context = RequestContext(request, {'monthForm': monthForm, 'privateOrKick': privateOrKick, 'licenceCheckBox': licenceCheckBox})
     return HttpResponse(template.render(context))
 
 def MonthlyKickStartPageView(request):
@@ -284,18 +317,14 @@ def MonthlyKickStartPageView(request):
     return HttpResponse(template.render(context))
 
 def FrontPageView(request):
-    kickStarterEdition = models.Product.objects.get(pk=1)
-    kickStarterEditionName = kickStarterEdition.name
-    kickStarterEditionDescription = kickStarterEdition.description
+
 
     privateEdition = models.Product.objects.get(pk=2)
     privateEditionName = privateEdition.name
     privateEditionDescription = privateEdition.description
 
     template = loader.get_template('fabric/frontpage.html')
-    context = RequestContext(request, {'kickStarterEditionName': kickStarterEditionName,
-                                       'kickStarterEditionDescription': kickStarterEditionDescription,
-                                       'privateEditionName': privateEditionName,
+    context = RequestContext(request, {'privateEditionName': privateEditionName,
                                        'privateEditionDescription': privateEditionDescription})
     return HttpResponse(template.render(context))
 

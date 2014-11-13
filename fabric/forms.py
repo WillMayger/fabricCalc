@@ -1,55 +1,37 @@
 from django import forms
 from django.forms import widgets
 from fabric import models
+from django.contrib import admin
+
 
 
 def loopResource():
     RES_CHOICES = []
+    res_choice =  models.Product.objects.get(pk=1).resource.all()
+
     try:
-        res_choice =  models.Product.objects.get(pk=1).resource.all()
-
-        for i in res_choice:
-            if str(i) == 'vCPU':
-                hi = 'hi'
-
-            elif str(i) == 'Ram':
-                hi = 'hi'
-
-            elif str(i) == 'Storage':
-                hi = 'hi'
-
-            else:
-                RES_CHOICES.append((str(i.name), str(i)))
+        for resItem in res_choice:
+            if models.Product.objects.get(pk=1).resource.get(name='Additional App Resource Bundle') != resItem \
+                    and models.Product.objects.get(pk=1).resource.get(name='Additional App Runtime Bundle') != resItem:
+                RES_CHOICES.append((str(resItem.name), str(resItem)))
     except:
         pass
+
+
 
     return RES_CHOICES
 
+
 def loopResourceVP():
     RES_CHOICES = []
-    try:
-        res_choice =  models.Product.objects.get(pk=2).resource.all()
+    res_choice =  models.Product.objects.get(pk=2).resource.all()
 
-        for i in res_choice:
-            if str(i) == 'vCPU':
-                 hi = 'hi'
 
-            elif str(i) == 'Ram':
-                 hi = 'hi'
+    for resItem in res_choice:
+        if models.Product.objects.get(pk=2).resource.get(name='Additional App Resource Bundle') != resItem \
+                and models.Product.objects.get(pk=2).resource.get(name='Additional App Runtime Bundle') != resItem:
+            RES_CHOICES.append((str(resItem.name), str(resItem)))
 
-            elif str(i) == 'Storage':
-                hi = 'hi'
-
-            elif str(i) == 'Additional App resource bundle':
-                 hi = 'hi'
-
-            elif str(i) == 'Additional App runtime bundle':
-                hi = 'hi'
-
-            else:
-                RES_CHOICES.append((str(i.name), str(i)))
-    except:
-        pass
 
     return RES_CHOICES
 

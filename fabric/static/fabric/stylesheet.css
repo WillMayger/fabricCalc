@@ -58,6 +58,21 @@ font-family:arial;
 background-color:#004670;
 }
 
+#licenceCheckDiv{
+display:block;
+margin:auto;
+width:65%;
+margin-top:30px;
+font-family:arial;
+color:white;
+font-size:20px;
+}
+
+#licenceCheckBox{
+height:15px;
+width:15px;
+}
+
 .blueFillKick{
 margin-top:-50px;
 width:100%;
@@ -107,8 +122,11 @@ border: 1px solid #333A3F;
 }
 
 #privateBtn{
-height:100%;
-width:100%;
+ width:50%;
+    height:10%;
+    display: block;
+    margin:auto;
+    margin-top:7%;
 background-color:#394146;
 color:#E6E6E6;
 border: 1px solid #2E3439;
@@ -116,11 +134,7 @@ text-decoration: none;
 }
 
 .aContain{
-    width:50%;
-    height:10%;
-    display: block;
-    margin:auto;
-    margin-top:7%;
+
 }
 
 a:hover, a:visited, a:link, a:active {
@@ -131,3 +145,22 @@ a:hover, a:visited, a:link, a:active {
 display:block;
 margin:auto;
 }
+
+.infoWrapper{
+display:block;
+height:24px;
+width:24px;
+}
+
+.infoI{
+height: 18px;
+width: 18px;
+border:3px solid #31dcf7;
+border-radius: 100%;
+font-size:15px;
+color:#31dcf7;
+text-align:center;
+font-family:Calisto MT;
+}
+
+#infoWrapperInPop{}

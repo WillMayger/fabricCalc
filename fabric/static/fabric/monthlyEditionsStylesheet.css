@@ -94,3 +94,20 @@ background-color:#394146;
 color:#E6E6E6;
 border: 1px solid #333A3F;
 }
+
+.infoWrapper{
+display:block;
+height:24px;
+width:24px;
+}
+
+.infoI{
+height: 18px;
+width: 18px;
+border:3px solid #31dcf7;
+border-radius: 100%;
+font-size:15px;
+color:#31dcf7;
+text-align:center;
+font-family:Calisto MT;
+}
