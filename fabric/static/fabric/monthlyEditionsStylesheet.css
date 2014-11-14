@@ -31,6 +31,16 @@ border: 1px solid #E6E6E6;
 height:330px;
 width:600px;
 }
+#HeaderH1{
+display:block;
+margin-top:-40px;
+margin-left:830px;
+color:#00629B;
+font-family:arial;
+font-size:40px;
+}
+
+#vpe{margin-top:0px;}
 
 #chooseMonthH1{
 margin-top:7%;

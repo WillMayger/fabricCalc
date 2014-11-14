@@ -1,5 +1,6 @@
 {% extends "base.html" %}
  {% block content %}
+        {% load staticfiles %}
            <div id="lightResource" class="white_content"><p>{{addResourceName}}:</p><p>{{resourceDes}}</p><div class = "infoWrapperInPop" onclick = "document.getElementById('lightResource').style.display='none';document.getElementById('fade').style.display='none'"  class="infoWrapper">
         <div id="infoPopRes" onclick = "document.getElementById('lightResource').style.display='none';document.getElementById('fade').style.display='none'" class="infoI">
             <strong>X</strong>
@@ -37,7 +38,7 @@
     <div id="fade" class="black_overlay"></div>
 
     <div id="dropDownSection">
-        <h1 class="H1Class">Resources</h1>
+        <h1 class="H1Class"><img id="resTag" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/Res.png' %}"></h1>
 						<form class="pure-form pure-form-stacked" method="post"  action="{% url 'kseresource' %}">
                           {% csrf_token %}
 					<div class="pure-g">
@@ -58,7 +59,7 @@
 
     </div>
     <div id="additionalSection">
-        <h1 class="H1Class">Additional Resources</h1>
+        <h1 class="H1Class"><img id="resADTag" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/addRes.png' %}"></h1>
         <form method="post"  id="additionalResourcesInputs"  class="pure-form pure-form-aligned" action="{% url 'ksenumbers' %}">
                               {% csrf_token %}
 					<div class="pure-g">

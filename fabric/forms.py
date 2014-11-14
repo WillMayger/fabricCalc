@@ -21,25 +21,12 @@ def loopResource():
 
     return RES_CHOICES
 
-
-def loopResourceVP():
-    RES_CHOICES = []
-    res_choice =  models.Product.objects.get(pk=2).resource.all()
-
-
-    for resItem in res_choice:
-        if models.Product.objects.get(pk=2).resource.get(name='Additional App Resource Bundle') != resItem \
-                and models.Product.objects.get(pk=2).resource.get(name='Additional App Runtime Bundle') != resItem:
-            RES_CHOICES.append((str(resItem.name), str(resItem)))
-
-
-    return RES_CHOICES
-
 def loopMonths():
     CHOICES= []
 
-    KickStarterEditionMonthly = models.CostPerMonth.objects.filter(resource_id =1)
-    monthAmounts = range(0,len(KickStarterEditionMonthly))
+#Items that have been deleted id = 1-9 so do not use id's 1-9 on this
+    KickStarterEditionMonthly = models.CostPerMonth.objects.filter(resource_id=10)
+    monthAmounts = range(0, len(KickStarterEditionMonthly))
 
     for i in monthAmounts:
         KickStarterEditionMonthlyI = KickStarterEditionMonthly[i].lengthInMonths
@@ -63,7 +50,7 @@ class ResourceDropDownKS(forms.Form):
     Resources = forms.ChoiceField(choices=RES_CHOICES, label='')
 
 class ResourceDropDownVP(forms.Form):
-    RES_CHOICES = loopResourceVP()
+    RES_CHOICES = loopResource()
     Resources = forms.ChoiceField(choices=RES_CHOICES, label='')
 
 class NumberInputFormVP(forms.Form):

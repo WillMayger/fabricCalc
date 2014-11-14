@@ -14,35 +14,20 @@
     </div>
     <form method="post"  action="{% url 'monthlyvp' %}">
         {% csrf_token %}
-    <div id="kickStartOutterDiv">
 
-        <h1 id="kickStarth1">Licences</h1>
-        <div class="blueFillKick">
-        </div>
-        <div class="keepDesStill">
-        <p id="kickStartP"></p>
-        </div>
-        <img class="cloudFabric" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/cloudFabricWhiteTiny.png' %}">
-        <div id="licenceCheckDiv">
-        <input id="licenceCheckBox" name="licenceCheckBox" type="checkbox"> Have you got your own licence?
-            </div>
-
-        </div>
-
-        </div>
     <div id="privateOutterDiv">
-            <h1 id="privateH1">{{privateEditionName}}</h1>
+            <h1 id="privateH1"><img id="vpeTag" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/VPE.png' %}"></h1>
         <div class="blueFillKick">
         </div>
         <div class="keepDesStill">
-             <p id="privateP">{{privateEditionDescription}}</p>
+             <p id="privateP"></p>
         </div>
-        <img class="cloudFabric" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/cloudFabricWhiteTiny.png' %}">
+        <img class="cloudFabric" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/CloudFabricLogo.png' %}">
 
         <button id="privateBtn" type="submit" class="pure-button pure-button-primary">{{privateEditionName}}</button>
 
             </div>
-    </div>
+
         </form>
 </body>
 </html>

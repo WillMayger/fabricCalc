@@ -23,7 +23,14 @@ def loopResourceVPViewsLoop():
 def FirstStagePageView(request):
     if request.method == 'POST':
             licenceCheckBox = request.POST['licenceCheckBox']
-            monthlyChoice = request.POST['monthlyradiobuttons']
+            try:
+                monthlyChoice = request.POST['monthlyradiobuttons']
+            except:
+                errorMessage = 'Please choose a Monthly Term first!'
+
+                template = loader.get_template('fabric/errorpage.html')
+                context = RequestContext(request, {'errorMessage': errorMessage})
+                return HttpResponse(template.render(context))
             privateOrKick = request.POST['privateOrKick']
 
             edition = models.Product.objects.get(pk=privateOrKick)
@@ -289,18 +296,10 @@ def NumbersPageView(request):
         return HttpResponse(template.render(context))
 
 def MonthlyvpPageView(request):
-    global privateOrKick;
-    privateOrKick = 1;
-    try:
-        if request.POST['licenceCheckBox'] == 'on':
-            licenceCheckBox = True
-            privateOrKick = 2
-        else:
-            licenceCheckBox = False
-            privateOrKick = 1
-    except:
-        licenceCheckBox = False
-        privateOrKick = 1
+    global privateOrKick
+    privateOrKick = 1
+
+    licenceCheckBox = False
 
     monthForm = forms.MonthlyRadioButtons( auto_id = True )
 
@@ -319,7 +318,7 @@ def MonthlyKickStartPageView(request):
 def FrontPageView(request):
 
 
-    privateEdition = models.Product.objects.get(pk=2)
+    privateEdition = models.Product.objects.get(pk=1)
     privateEditionName = privateEdition.name
     privateEditionDescription = privateEdition.description
 

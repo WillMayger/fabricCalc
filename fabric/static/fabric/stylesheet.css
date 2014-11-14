@@ -56,6 +56,13 @@ color:#E6E6E6;
 text-align:center;
 font-family:arial;
 background-color:#004670;
+font-size:30px;
+}
+
+#vpeTag{
+display:block;
+margin:auto;
+margin-top:10px;
 }
 
 #licenceCheckDiv{
@@ -104,13 +111,13 @@ overflow:auto;
 #privateOutterDiv{
 display: block;
 margin:2.5%;
-margin-right:10%;
-width:35%;
+margin:auto;
+width:50%;
 height:480px;
 background-color:#00588C;
 border-radius:10px;
 border: 1px solid white;
-float:right;
+margin-top:2%;
 }
 
 #kickStartBtn{
@@ -126,7 +133,7 @@ border: 1px solid #333A3F;
     height:10%;
     display: block;
     margin:auto;
-    margin-top:7%;
+    margin-top:4%;
 background-color:#394146;
 color:#E6E6E6;
 border: 1px solid #2E3439;
@@ -143,7 +150,10 @@ a:hover, a:visited, a:link, a:active {
 
 .cloudFabric{
 display:block;
+height:300px;
+width:300px;
 margin:auto;
+margin-top:-18%;
 }
 
 .infoWrapper{
@@ -164,3 +174,5 @@ font-family:Calisto MT;
 }
 
 #infoWrapperInPop{}
+
+
