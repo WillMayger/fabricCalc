@@ -30,6 +30,8 @@ font-size:40px;
 }
 
 #dropDownSection{
+color:white;
+font-family:arial;
 vertical-align:top;
 position: relative;
 display: inline-block;
@@ -49,12 +51,16 @@ font-family:arial;
 #Resources{
 margin:auto;
 margin-top:10px;
+margin-left:50px;
 width:70%;
 height:50px;
 background-color:#00629B;
 color:#E6E6E6;
 }
-
+input{
+background-color:00588C;
+color:white;
+}
 #additionalSection{
 vertical-align:top;
 position: relative;
@@ -63,6 +69,8 @@ margin: 0;
 height:84.5%;
 width:400px;
 float:left;
+font-family:arial;
+color:white;
 }
 
 #divInput
@@ -144,7 +152,7 @@ font-family:arial;
 vertical-align:top;
 position: relative;
 display: inline-block;
-margin: 0;
+margin-right:10px;
 height:84.5%;
 width:430px;
 float:right;
@@ -159,7 +167,7 @@ background-color:#00588C;
 border-radius:10px;
 border: 1px solid #E6E6E6;
 height:90%;
-width:90%;
+width:100%;
 }
 
 #tableFinal{
@@ -181,12 +189,10 @@ color:#00629B;
 }
 
 .infoWrapper{
-cursor:default;
 display:block;
-height:24px;
-width:24px;
-margin-left: 400px;
-margin-top: -50px;
+cursor: pointer;
+margin-top:-40px;
+margin-left:430px;
 }
 
 .infoI{
@@ -209,6 +215,17 @@ width:43%;
 border: 1px solid #E6E6E6;
 background-color:#00629B;
 }
+
+#subButtonEverything{
+display:block;
+width:43%;
+margin:auto;
+margin-top:50px;
+margin-right:60px;
+border: 1px solid #E6E6E6;
+background-color:#00629B;
+}
+
 
 tbody{
 color:#E6E6E6;
@@ -332,7 +349,7 @@ font-family:arial;
 
 
 .infoWrapperInPop{
-cursor:default;
+cursor: pointer;
 display:block;
 margin-top:0px;
 float:right;}
@@ -340,4 +357,48 @@ float:right;}
 #dropInfo{
 margin-top:-35px;
 margin-left:360px;
+}
+
+.infoWrapperAd{
+cursor:pointer;
+display:block;
+height:24px;
+width:24px;
+margin-left: 450px;
+margin-top: -50px;
+}
+
+.additionalContainers{
+margin-bottom:25px;
+}
+
+.monthRads{
+margin-left:40px;
+margin-top:10px;
+height:20px;
+width:20px;
+}
+
+.monthRadsP{
+font-size:20px;
+margin-top:-21px;
+margin-left:90px;
+}
+
+#spacerDrop{
+height:50px;
+width:100%;
+}
+
+#spacerADD{
+height:20px;
+width:100%;
+}
+
+.addInputsClass{
+width:20%;
+margin-left:110px;
+}
+label{
+margin-left:50px;
 }

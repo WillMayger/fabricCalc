@@ -7,19 +7,18 @@ from fabric import forms
 
 def loopResourceVPViewsLoop():
     RES_CHOICES = []
-    res_choice = models.Product.objects.get(pk=privateOrKick).resource.all()
+    res_choice = models.Product.objects.get(pk=1).resource.all()
 
     for resItem in res_choice:
 
-        if models.Product.objects.get(pk=privateOrKick).resource.get(name='Additional App Resource Bundle') != resItem \
-            and models.Product.objects.get(pk=privateOrKick).resource.get(name='Additional App Runtime Bundle') != resItem:
+        if models.Product.objects.get(pk=1).resource.get(name='Additional App Resource Bundle') != resItem \
+            and models.Product.objects.get(pk=1).resource.get(name='Additional App Runtime Bundle') != resItem:
             RES_CHOICES.append((str(resItem)))
 
 
     return RES_CHOICES
 
-
-
+'''
 def FirstStagePageView(request):
     if request.method == 'POST':
             licenceCheckBox = request.POST['licenceCheckBox']
@@ -314,9 +313,8 @@ def MonthlyKickStartPageView(request):
     template = loader.get_template('fabric/monthlykickstart.html')
     context = RequestContext(request, {'monthForm': monthForm, 'privateOrKick': privateOrKick})
     return HttpResponse(template.render(context))
-
+'''
 def FrontPageView(request):
-
 
     privateEdition = models.Product.objects.get(pk=1)
     privateEditionName = privateEdition.name
@@ -332,6 +330,188 @@ def ErrorPageView(request):
     template = loader.get_template('fabric/errorpage.html')
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
+
+def InputObjectList(editionResource):
+    numForm = []
+    i = 0
+    for object in editionResource:
+        if object.name != "Foundation" and object.name != "Foundation +":
+            numForm.append("numForm" + str(i))
+
+            month_n_cost = models.CostPerMonth.objects.filter(resource__name=object.name)
+
+            costList = []
+            for obj in month_n_cost:
+                    costList.append({'months': obj.lengthInMonths, 'cost':obj.costPerMonth})
+
+            numForm[i] = forms.InputBoxes( object.name.replace(" ", ""), object.name, 0, costList)
+            i = i + 1
+    return numForm
+
+def DropDownList(editionResource):
+    dropForm = []
+    i = 0
+    for object in editionResource:
+        if object.name == "Foundation" or object.name == "Foundation +":
+            dropForm.append("dropForm" + str(i))
+
+            month_n_cost = models.CostPerMonth.objects.filter(resource__name=object.name)
+
+            costList = []
+            for obj in month_n_cost:
+                    costList.append({'months': obj.lengthInMonths, 'cost':obj.costPerMonth})
+
+            dropForm[i] = forms.DropDownBoxes( object.name.replace(" ", ""), object.name, 0, costList)
+            i = i + 1
+    return dropForm
+
+def MonthlyRads(editionResource):
+    dropForm = []
+    i = 0
+    for object in editionResource:
+        if object.name == "Foundation":
+
+
+            month_n_cost = models.CostPerMonth.objects.filter(resource__name=object.name)
+
+            for obj in month_n_cost:
+                dropForm.append("dropForm" + str(i))
+
+                strMonth = str(obj.lengthInMonths) + " Months Commitment"
+
+                if int(obj.lengthInMonths) == 0:
+                   strMonth = "Pay As You Go"
+
+                dropForm[i] = forms.MonthlyRads( object.name.replace(" ", ""),
+                                                 strMonth,
+                                                 obj.lengthInMonths)
+                i = i + 1
+    return dropForm
+
+def ResourceCost(additionalAppResourceBundle, monthlyChoice, resName):
+    additionalAppResourceBundleCost = models.CostPerMonth.objects. \
+        filter(resource__product__pk=1). \
+        filter(resource__name=resName). \
+        get(lengthInMonths=monthlyChoice). \
+        costPerMonth
+    returnValue = int(additionalAppResourceBundle) * int(additionalAppResourceBundleCost)
+    return returnValue
+
+def ResourceCostRes(monthlyChoice, resName):
+     additionalAppResourceBundleCost = models.CostPerMonth.objects. \
+        filter(resource__product__pk=1). \
+        filter(resource__name=resName). \
+        get(lengthInMonths=monthlyChoice). \
+        costPerMonth
+     return additionalAppResourceBundleCost
+
+def postAndSetVariable(monthlyChoice, request):
+    try:
+        additionalAppResourceBundle = int(request.POST['AdditionalAppResourceBundle'])
+    except:
+        additionalAppResourceBundle = 0
+    resName = 'Additional App Resource Bundle'
+    additionalResourceString = "%s * %s" % (resName, additionalAppResourceBundle)
+    additionalResource = ResourceCost(additionalAppResourceBundle, monthlyChoice, resName)
+
+    try:
+        additionalAppRuntimeBundle = int(request.POST['AdditionalAppRuntimeBundle'])
+    except:
+        additionalAppRuntimeBundle = 0
+    resName = 'Additional App Runtime Bundle'
+    additionalRuntimeString = "%s * %s" % (resName, additionalAppRuntimeBundle)
+    additionalRuntime = ResourceCost(additionalAppRuntimeBundle, monthlyChoice, resName)
+
+    resourceUser = request.POST['Resources']
+    resName = str(resourceUser)
+    mainResource = ResourceCostRes( monthlyChoice, resName)
+
+    return additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource
+
+
+def PopUpList(edition):
+    popUpList = []
+    for i in loopResourceVPViewsLoop():
+        editionResourceDescription = edition.resource.get(name=str(i)).description
+        popUpList.append(i + ": ")
+        popUpList.append(str(editionResourceDescription))
+        popUpList.append("   ")
+    return popUpList
+
+
+def CfCalcView(request):
+
+    edition = models.Product.objects.get(pk=1)
+    editionName = edition.name
+    editionResource = edition.resource.all()
+
+    resourceDes = edition.resource.get(name='Additional App Resource Bundle').description
+    runtimeDes = edition.resource.get(name='Additional App Runtime Bundle').description
+
+    addResourceName = edition.resource.get(name='Additional App Resource Bundle').name
+    addRuntimeName =  edition.resource.get(name='Additional App Runtime Bundle').name
+
+    popUpList = PopUpList(edition)
+
+    postTrue = False
+
+    if request.method == 'POST':
+
+        monthlyChoice = int(request.POST['monthRads'])
+
+        postTrue = True
+
+        additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource  \
+           = postAndSetVariable(monthlyChoice, request)
+
+        totalCost = int(additionalResource) + int(additionalRuntime) + int(mainResource)
+
+        dropDowns = DropDownList(editionResource)
+        numForm = InputObjectList(editionResource)
+
+        monthForm = MonthlyRads(editionResource)
+        additionalRuntimeReset = additionalRuntime
+        if resName != "Foundation +":
+             additionalRuntimeReset = 0
+
+        template = loader.get_template('fabric/cfcalcpage.html')
+        context = RequestContext(request, {'listOfNum': numForm,
+                                           'dropDowns': dropDowns,
+                                           'monthForm': monthForm,
+                                           'additionalResourceString': additionalResourceString,
+                                           'additionalResource': additionalResource,
+                                           'additionalRuntimeString': additionalRuntimeString,
+                                           'additionalRuntime': additionalRuntime,
+                                           'resName': resName,
+                                           'mainResource': mainResource,
+                                           'postTrue': postTrue,
+                                           'totalCost': totalCost,
+                                           'popUpList': popUpList,
+                                           'resourceDes': resourceDes,
+                                           'runtimeDes': runtimeDes,
+                                           'addResourceName': addResourceName,
+                                           'addRuntimeName': addRuntimeName,
+                                           'additionalRuntimeReset': additionalRuntimeReset})
+        return HttpResponse(template.render(context))
+    else:
+
+
+        dropDowns = DropDownList(editionResource)
+        numForm = InputObjectList(editionResource)
+
+        monthForm = MonthlyRads(editionResource)
+
+        template = loader.get_template('fabric/cfcalcpage.html')
+        context = RequestContext(request, {'listOfNum': numForm,
+                                           'dropDowns': dropDowns,
+                                           'monthForm': monthForm,
+                                           'postTrue': postTrue,
+                                           'popUpList': popUpList,
+                                           'resourceDes': resourceDes,
+                                           'runtimeDes': runtimeDes,
+                                           'addResourceName': addResourceName,
+                                           'addRuntimeName': addRuntimeName})
+        return HttpResponse(template.render(context))
 
 def handlerCustom404(request):
      return render(request, 'fabric/404.html')

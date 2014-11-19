@@ -12,7 +12,7 @@
     <div id="header">
         <img id="logo" alt="Canopy logo" title="Canopy logo" src="{% static 'fabric/canopy-logo1.png' %}">
     </div>
-    <form method="post"  action="{% url 'monthlyvp' %}">
+    <form method="get"  action="{% url 'cfcalcpage' %}">
         {% csrf_token %}
 
     <div id="privateOutterDiv">
