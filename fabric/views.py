@@ -408,6 +408,8 @@ def ResourceCostRes(monthlyChoice, resName):
 def postAndSetVariable(monthlyChoice, request):
     try:
         additionalAppResourceBundle = int(request.POST['AdditionalAppResourceBundle'])
+        if additionalAppResourceBundle < 0:
+            additionalAppResourceBundle = 0
     except:
         additionalAppResourceBundle = 0
     resName = 'Additional App Resource Bundle'
@@ -416,6 +418,8 @@ def postAndSetVariable(monthlyChoice, request):
 
     try:
         additionalAppRuntimeBundle = int(request.POST['AdditionalAppRuntimeBundle'])
+        if additionalAppRuntimeBundle < 0:
+            additionalAppRuntimeBundle = 0
     except:
         additionalAppRuntimeBundle = 0
     resName = 'Additional App Runtime Bundle'
@@ -426,7 +430,8 @@ def postAndSetVariable(monthlyChoice, request):
     resName = str(resourceUser)
     mainResource = ResourceCostRes( monthlyChoice, resName)
 
-    return additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource
+    return additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource, \
+        additionalAppResourceBundle, additionalAppRuntimeBundle
 
 
 def PopUpList(edition):
@@ -461,8 +466,8 @@ def CfCalcView(request):
 
         postTrue = True
 
-        additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource  \
-           = postAndSetVariable(monthlyChoice, request)
+        additionalResourceString, additionalResource, additionalRuntimeString, additionalRuntime, resName, mainResource,  \
+           additionalAppResourceBundle, additionalAppRuntimeBundle = postAndSetVariable(monthlyChoice, request)
 
         totalCost = int(additionalResource) + int(additionalRuntime) + int(mainResource)
 
@@ -473,9 +478,13 @@ def CfCalcView(request):
         additionalRuntimeReset = additionalRuntime
         if resName != "Foundation +":
              additionalRuntimeReset = 0
+             additionalAppRuntimeBundle = 0
+
 
         template = loader.get_template('fabric/cfcalcpage.html')
-        context = RequestContext(request, {'listOfNum': numForm,
+        context = RequestContext(request, {'additionalAppResourceBundle': additionalAppResourceBundle,
+                                           'additionalAppRuntimeBundle': additionalAppRuntimeBundle,
+                                           'listOfNum': numForm,
                                            'dropDowns': dropDowns,
                                            'monthForm': monthForm,
                                            'additionalResourceString': additionalResourceString,
@@ -491,7 +500,8 @@ def CfCalcView(request):
                                            'runtimeDes': runtimeDes,
                                            'addResourceName': addResourceName,
                                            'addRuntimeName': addRuntimeName,
-                                           'additionalRuntimeReset': additionalRuntimeReset})
+                                           'additionalRuntimeReset': additionalRuntimeReset,
+                                           'monthlyChoice': monthlyChoice})
         return HttpResponse(template.render(context))
     else:
 
