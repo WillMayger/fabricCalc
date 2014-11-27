@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 2.7.8 virtualenv at C:\Users\A584501\.virtualenvs\fabricCalcVirEnviro" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="PushFabric" />
+    <orderEntry type="module" module-name="BrookLogs" />
   </component>
 </module>
 

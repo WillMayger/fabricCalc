@@ -1,6 +1,0 @@
-{% extends "basemonthly.html" %}
- {% block monthlyForm %}
-         <form method="post" action="{% url 'kickstartedition' %}">
-         <input type='hidden' name="privateOrKick" value="{{privateOrKick}}" />
-         <input type='hidden' name="licenceCheckBox" value="{{licenceCheckBox}}" />
-   {% endblock monthlyForm %}

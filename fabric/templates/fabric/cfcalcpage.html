@@ -5,7 +5,49 @@
         <div id="infoPopRes" onclick = "document.getElementById('lightResource').style.display='none';document.getElementById('fade').style.display='none'" class="infoI">
             <strong>X</strong>
         </div>
-    </div><p>{{addResourceName}}:</p><p>{{resourceDes}}</p></div>
+    </div>{% for key, value in additionalInfoDic.items %}
+            <p>{{key}}:</p><p>{{value}}</p>
+               {% endfor %}</div>
+         <div id="lightCompare" class="white_content"><div class = "infoWrapperInPop" onclick = "document.getElementById('lightCompare').style.display='none';document.getElementById('fade').style.display='none'"  class="infoWrapper">
+        <div id="infoPopComp" onclick = "document.getElementById('lightCompare').style.display='none';document.getElementById('fade').style.display='none'" class="infoI">
+            <strong>X</strong>
+        </div>
+    </div><table id="tableFinal" class="pure-table pure-table-horizontal">
+    <thead id="tableHead">
+        <tr>
+            <th >Monthly Period</th>
+           {%for key,list in compare.items|slice:'0:1' %}
+
+            {% for dic in list %}
+            {% for month, cost in dic.items %}
+            <th>{{month}}</th>
+            {%endfor%}
+            {%endfor%}
+            {%endfor%}
+        </tr>
+    </thead>
+    <tbody>
+
+
+            {%for key,list in compare.items %}
+     <tr>
+            <td>{{key}}</td>
+            {% for dic in list %}
+
+            {% for month, cost in dic.items %}
+
+            <td>€{{cost}}</td>
+
+            {%endfor%}
+
+            {%endfor%}
+</tr>
+            {%endfor%}
+
+
+
+    </tbody>
+</table></div>
          <div id="lightRuntime" class="white_content"><div class = "infoWrapperInPop" onclick = "document.getElementById('lightRuntime').style.display='none';document.getElementById('fade').style.display='none'"  class="infoWrapper">
         <div id="infoPopRun" onclick = "document.getElementById('lightRuntime').style.display='none';document.getElementById('fade').style.display='none'" class="infoI">
             <strong>X</strong>
@@ -29,16 +71,23 @@
         <div id="infoPopRunOnLoadErr" onclick = "document.getElementById('lightOnLoadErr').style.display='none';document.getElementById('fade').style.display='none'" class="infoI">
             <strong>X</strong>
         </div>
-    </div><p>{{addRuntimeName}} Is not available for {{resName}}</p></div>
+    </div><p>Additional App Runtime Bundle is not available for {{resName}}</p></div>
 
         {% block body %}
 {%if postTrue == False %}
 <body onload ="document.getElementById('lightOnLoad').style.display='block';document.getElementById('fade').style.display='block'" >
-{% elif resName != "Foundation +" and additionalRuntime > 0 and postTrue == True %}
+{%endif%}
+{% for key,value in requestDic.items %}
+{% if key == 'Additional App Runtime Bundle' %}
+{% if resName != "Foundation +" and value.0 > 0 and postTrue == True %}
 <body onload ="document.getElementById('lightOnLoadErr').style.display='block';document.getElementById('fade').style.display='block'" >
 {%else%}
 <body>
 {%endif%}
+{%else%}
+<body>
+{%endif%}
+{%endfor%}
 {% endblock body %}
 
 
@@ -78,39 +127,43 @@
                              {% endif %}
                          </ul>
                         {% endfor %}
+                        <a id="subButtonEverything" onclick="document.getElementById('lightCompare').style.display='block';document.getElementById('fade').style.display='block'" class="pure-button pure-button-primary">Compare</a>
     </div>
     <div id="additionalSection">
         <h1 class="H1Class"><img id="resADTag" alt="Cloud Fabric" title="Cloud Fabric" src="{% static 'fabric/addRes.png' %}"></h1>
            <div id="spacerADD"></div>
+
         {%for input in listOfNum%}
+
          <div class="additionalContainers">
         <div class="pure-control-group">
-            {% if postTrue and input.label == addResourceName %}
+
+            {% if postTrue %}
+            {% for key, value in tableDic.items %}
+            {% if input.label == value.2 %}
+            {% if resName != "Foundation +" and value.2 == 'Additional App Runtime Bundle' and value.0 > 0%}
             <label for="{{input.name}}">{{input.label}}</label>
-            <input class="addInputsClass" id="{{input.name}}" name="{{input.name}}" value="{{additionalAppResourceBundle}}" type="number" min="0">
-            {% elif postTrue and addRuntimeName == input.label %}
+            <input class="addInputsClass" id="{{input.name}}" name="{{input.label}}" value="{{input.value}}" type="number" min="0">
+             {%else%}
             <label for="{{input.name}}">{{input.label}}</label>
-            <input class="addInputsClass" id="{{input.name}}" name="{{input.name}}" value="{{additionalAppRuntimeBundle}}" type="number" min="0">
-        {% else %}
+            <input class="addInputsClass" id="{{input.name}}" name="{{input.label}}" value="{{value.3}}" type="number" min="0">
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% else %}
             <label for="{{input.name}}">{{input.label}}</label>
-            <input class="addInputsClass" id="{{input.name}}" name="{{input.name}}" value="{{input.value}}" type="number" min="0">
-               {%endif%}
+            <input class="addInputsClass" id="{{input.name}}" name="{{input.label}}" value="{{input.value}}" type="number" min="0">
+               {% endif %}
+
         </div>
-             {% if input.label == addResourceName %}
          <div onclick ="document.getElementById('lightResource').style.display='block';document.getElementById('fade').style.display='block'" id="bottomInfo" class="infoWrapper">
         <div onclick ="document.getElementById('lightResource').style.display='block';document.getElementById('fade').style.display='block'" class="infoI">
             <strong>i</strong>
             </div>
         </div>
-             {% elif input.label == addRuntimeName %}
-             <div onclick ="document.getElementById('lightRuntime').style.display='block';document.getElementById('fade').style.display='block'" id="bottomInfo" class="infoWrapper">
-        <div onclick ="document.getElementById('lightRuntime').style.display='block';document.getElementById('fade').style.display='block'" class="infoI">
-            <strong>i</strong>
+
             </div>
-        </div>
-             {% endif %}
-            </div>
-                    {%endfor%}
+                    {% endfor %}
                             <button type="submit" class="pure-button pure-button-primary" id = "subButtonEverything">Submit</button>
 						</div>
 </form>
@@ -130,18 +183,17 @@
             <td>{{resName}}</td>
             <td>€ {{mainResource}}</td>
         </tr>
-            {%if additionalResource != 0 %}
+    {% for key, value in tableDic.items %}
+    {% if resName != "Foundation +" and value.2 == 'Additional App Runtime Bundle' and value.0 > 0%}
+    {%else%}
+            {%if value.0 != 0 %}
         <tr>
-            <td>{{additionalResourceString}}</td>
-         <td>€ {{additionalResource}}</td>
+            <td>{{key}}<p>(Per item: €{{value.1}})</p></td>
+         <td>€ {{value.0}}</td>
         </tr>
     {% endif %}
- {%if additionalRuntimeReset != 0 %}
-     <tr>
-            <td>{{additionalRuntimeString}}</td>
-         <td>€ {{additionalRuntime}}</td>
-        </tr>
-{% endif %}
+    {% endif %}
+    {% endfor %}
      <tr id="totalCost">
             <td><b>Total Cost</b></td>
          <td><b>€ {{totalCost}}</b></td>

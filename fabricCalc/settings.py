@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'fabric',
     'common',
-    'smuggler',
+    'smuggler'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,7 +78,7 @@ else:
   DATABASES = {
     "default": {
     "ENGINE": "django.db.backends.sqlite3",
-    "NAME": "db.sqlite3",
+    "NAME": "C:\\Users\\A584501\\Desktop\\fabricCalc\\db.sqlite3",
     "USER": "",
     "PASSWORD": "",
     "HOST": "",

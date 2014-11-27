@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../BrookLogs/.idea/BrookLogs.iml" filepath="$PROJECT_DIR$/../BrookLogs/.idea/BrookLogs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PushFabric/.idea/PushFabric.iml" filepath="$PROJECT_DIR$/../PushFabric/.idea/PushFabric.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/fabricCalc.iml" filepath="$PROJECT_DIR$/.idea/fabricCalc.iml" />
     </modules>
   </component>
